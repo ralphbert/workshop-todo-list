@@ -1,6 +1,8 @@
 <ul>
-  <li>Please</li>
-  <li>add</li>
-  <li>some</li>
-  <li>todos</li>
+  <li *ngFor="let todo of todos" (click)="todoToggle.emit(todo)">
+    <span *ngIf="todo.done">✅</span>
+    <span *ngIf="!todo.done">❗️</span>
+
+    {{ todo.title }}
+  </li>
 </ul>

@@ -1,4 +1,6 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Output} from '@angular/core';
+import {TodoCreate} from '../../types';
+
 
 @Component({
   selector: 'app-todo-form',
@@ -6,7 +8,10 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TodoFormComponent {
-  @Input() todoTitle = '';
+  todoTitle = '';
+
+  @Output()
+  todoCreate = new EventEmitter<TodoCreate>();
 
   onInput(todoTitle: string) {
     console.log(todoTitle);
@@ -15,5 +20,14 @@ export class TodoFormComponent {
 
   onDone() {
     console.log('onDone', this.todoTitle);
+
+    if (this.todoTitle.length > 0) {
+      const payload: TodoCreate = {
+        title: this.todoTitle,
+      };
+
+      this.todoCreate.emit(payload);
+      this.todoTitle = '';
+    }
   }
 }
