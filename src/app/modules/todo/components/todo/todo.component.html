@@ -1,0 +1,8 @@
+<ng-container *ngIf="todos$">
+  <app-todo-list
+    [todos]="todos$ | async"
+    (todoDelete)="onDelete($event.id)"
+  ></app-todo-list>
+</ng-container>
+
+<app-todo-form (todoSubmit)="onAdd($event)"></app-todo-form>

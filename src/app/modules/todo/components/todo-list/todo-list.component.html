@@ -1,0 +1,24 @@
+<ul class="m-2 list-group">
+  <ng-container *ngFor="let todo of todos; trackBy: trackByTodo">
+    <li class="list-group-item">
+      <div class="d-flex align-center">
+        <div class="p-2 col-auto">
+          <i class="bi bi-check2-square" *ngIf="todo.done"></i>
+          <i class="bi bi-check-square-fill" *ngIf="!todo.done"></i>
+        </div>
+        <div class="col p-2">
+          {{ todo.title }}
+        </div>
+        <div class="col-auto" (click)="onDelete(todo)">
+          <button class="btn btn-danger">
+            <i class="bi-trash"></i>
+          </button>
+        </div>
+      </div>
+    </li>
+  </ng-container>
+</ul>
+
+<div class="m-2 text-muted text-center" *ngIf="!todos || todos.length <= 0">
+  Empty
+</div>
