@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {TodoCreate} from '../../types';
+import {Todo, TodoCreate} from '../../types';
 import {TodoService} from '../../services/todo.service';
 
 @Component({
@@ -13,6 +13,19 @@ export class TodoComponent {
   }
 
   onTodoCreate(todo: TodoCreate) {
-    this.todoService.create(todo);
+    this.todoService.create(todo).subscribe(todo => {
+      console.log('todo created!', todo);
+    });
+  }
+
+  onDelete(todo: Todo) {
+    console.log('onDelete', todo);
+    this.todoService.delete(todo.id).subscribe(() => {
+      console.log('deleted!');
+    });
+  }
+
+  onToggle(todo: Todo) {
+    this.todoService.toggle(todo).subscribe();
   }
 }
