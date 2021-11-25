@@ -9,6 +9,7 @@ import {Todo} from '../../../../types';
 })
 export class TodoItemComponent {
   @Input() todo: Todo | undefined;
+  @Input() loading = false;
   @Output() todoDelete = new EventEmitter<Todo>();
   @Output() todoToggle = new EventEmitter<Todo>();
 }

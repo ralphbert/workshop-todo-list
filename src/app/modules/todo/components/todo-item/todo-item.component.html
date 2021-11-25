@@ -1,14 +1,19 @@
 <ng-container *ngIf="todo">
-  <div class="d-flex align-center" (click)="todoToggle.emit(todo)">
-    <div class="p-2 col-auto">
-      <i class="bi bi-check2-square" *ngIf="todo.done"></i>
-      <i class="bi bi-check-square-fill" *ngIf="!todo.done"></i>
+  <div class="d-flex align-center">
+    <div class="p-2 col-auto" (click)="todoToggle.emit(todo)">
+      <ng-container *ngIf="!loading">
+        <i class="bi bi-check2-square" *ngIf="todo.done"></i>
+        <i class="bi bi-check-square-fill" *ngIf="!todo.done"></i>
+      </ng-container>
+      <ng-container *ngIf="loading">
+        <app-spinner></app-spinner>
+      </ng-container>
     </div>
-    <div class="col p-2">
+    <div class="col p-2" (click)="todoToggle.emit(todo)">
       {{ todo.title }}
     </div>
     <div class="col-auto" (click)="todoDelete.emit(todo)">
-      <button class="btn btn-danger">
+      <button [disabled]="loading" class="btn btn-danger">
         <i class="bi-trash"></i>
       </button>
     </div>

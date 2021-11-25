@@ -17,6 +17,15 @@ export class TodoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.todoService.getAll().subscribe();
+
+    this.todoService.loading$.subscribe(loading => {
+      console.log(loading);
+    });
+
+    this.todoService.todosLoading$.subscribe(loading => {
+      console.log(loading);
+    });
   }
 
   onAdd(todo: TodoCreate) {

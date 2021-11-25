@@ -1,6 +1,8 @@
-import {ChangeDetectionStrategy, Component, Input, Output, EventEmitter} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {Todo} from '../../../../types';
 import {listAnimation, slideAnimation} from '../../../../animations';
+import {TodoService} from '../../services/todo.service';
+import {map, Observable} from 'rxjs';
 
 @Component({
   selector: 'app-todo-list',
@@ -17,7 +19,7 @@ export class TodoListComponent {
   @Output() todoDelete = new EventEmitter<Todo>();
   @Output() todoToggle = new EventEmitter<Todo>();
 
-  constructor() {
+  constructor(private todoService: TodoService) {
   }
 
   get todosDone() {
@@ -38,5 +40,13 @@ export class TodoListComponent {
 
   onClick(todo: Todo) {
     this.todoToggle.next(todo);
+  }
+
+  isLoading$(todo: Todo): Observable<boolean> {
+    return this.todoService.todosLoading$.pipe(
+      map(ids => {
+        return ids.includes(todo.id) || false;
+      }),
+    );
   }
 }

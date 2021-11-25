@@ -1,18 +1,20 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FocusDirective } from './directives/focus.directive';
-
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FocusDirective} from './directives/focus.directive';
+import {SpinnerComponent} from './components/spinner/spinner.component';
 
 
 @NgModule({
   declarations: [
-    FocusDirective
+    FocusDirective,
+    SpinnerComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    FocusDirective
+    FocusDirective,
+    SpinnerComponent
   ]
 })
 export class SharedModule { }

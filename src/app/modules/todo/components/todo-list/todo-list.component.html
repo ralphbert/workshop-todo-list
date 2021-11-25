@@ -1,12 +1,14 @@
 <ul class="m-2 list-group" [@listAnimation]="todos?.length">
   <ng-container *ngFor="let todo of todosOpen; trackBy: trackByTodo">
     <li class="list-group-item p-0">
-      <app-todo-item @slideAnimations [todo]="todo" (todoToggle)="todoToggle.next($event)" (todoDelete)="todoDelete.emit($event)"></app-todo-item>
+      <app-todo-item @slideAnimations [loading]="(isLoading$(todo) | async) || false" [todo]="todo"
+                     (todoToggle)="todoToggle.next($event)" (todoDelete)="todoDelete.emit($event)"></app-todo-item>
     </li>
   </ng-container>
   <ng-container *ngFor="let todo of todosDone; trackBy: trackByTodo">
     <li class="list-group-item p-0">
-      <app-todo-item @slideAnimations [todo]="todo" (todoToggle)="todoToggle.next($event)" (todoDelete)="todoDelete.emit($event)"></app-todo-item>
+      <app-todo-item @slideAnimations [loading]="(isLoading$(todo) | async) || false" [todo]="todo"
+                     (todoToggle)="todoToggle.next($event)" (todoDelete)="todoDelete.emit($event)"></app-todo-item>
     </li>
   </ng-container>
 </ul>
