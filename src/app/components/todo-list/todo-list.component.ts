@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Todo} from '../../types';
 
 @Component({
@@ -12,4 +12,13 @@ export class TodoListComponent {
 
   @Output()
   todoToggle = new EventEmitter<Todo>();
+
+  @Output()
+  todoDelete = new EventEmitter<Todo>();
+
+  onDelete(event: Event, todo: Todo) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.todoDelete.emit(todo)
+  }
 }

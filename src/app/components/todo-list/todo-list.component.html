@@ -4,5 +4,7 @@
     <span *ngIf="!todo.done">❗️</span>
 
     {{ todo.title }}
+
+    <a href="#" (click)="onDelete($event, todo)">Löschen</a>
   </li>
 </ul>
