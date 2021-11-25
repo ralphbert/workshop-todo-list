@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Todo, TodoCreate} from '../../types';
 import {TodoService} from '../../services/todo.service';
 
@@ -7,9 +7,13 @@ import {TodoService} from '../../services/todo.service';
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.css']
 })
-export class TodoComponent {
+export class TodoComponent implements OnInit {
   constructor(public todoService: TodoService) {
     console.log(todoService);
+  }
+
+  ngOnInit() {
+    this.todoService.get().subscribe();
   }
 
   onTodoCreate(todo: TodoCreate) {

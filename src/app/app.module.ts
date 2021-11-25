@@ -5,8 +5,9 @@ import {AppComponent} from './app.component';
 import {TodoFormComponent} from './components/todo-form/todo-form.component';
 import {TodoItemComponent} from './components/todo-item/todo-item.component';
 import {TodoListComponent} from './components/todo-list/todo-list.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 import {TodoComponent} from './components/todo/todo.component';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {TodoComponent} from './components/todo/todo.component';
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     // ReactiveFormsModule,
   ],
   providers: [],
