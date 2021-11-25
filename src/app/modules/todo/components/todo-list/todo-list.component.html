@@ -1,24 +1,16 @@
-<ul class="m-2 list-group">
-  <ng-container *ngFor="let todo of todos; trackBy: trackByTodo">
-    <li class="list-group-item">
-      <div class="d-flex align-center">
-        <div class="p-2 col-auto">
-          <i class="bi bi-check2-square" *ngIf="todo.done"></i>
-          <i class="bi bi-check-square-fill" *ngIf="!todo.done"></i>
-        </div>
-        <div class="col p-2">
-          {{ todo.title }}
-        </div>
-        <div class="col-auto" (click)="onDelete(todo)">
-          <button class="btn btn-danger">
-            <i class="bi-trash"></i>
-          </button>
-        </div>
-      </div>
+<ul class="m-2 list-group" [@listAnimation]="todos?.length">
+  <ng-container *ngFor="let todo of todosOpen; trackBy: trackByTodo">
+    <li class="list-group-item p-0">
+      <app-todo-item @slideAnimations [todo]="todo" (todoToggle)="todoToggle.next($event)" (todoDelete)="todoDelete.emit($event)"></app-todo-item>
+    </li>
+  </ng-container>
+  <ng-container *ngFor="let todo of todosDone; trackBy: trackByTodo">
+    <li class="list-group-item p-0">
+      <app-todo-item @slideAnimations [todo]="todo" (todoToggle)="todoToggle.next($event)" (todoDelete)="todoDelete.emit($event)"></app-todo-item>
     </li>
   </ng-container>
 </ul>
 
-<div class="m-2 text-muted text-center" *ngIf="!todos || todos.length <= 0">
+<div class="m-2 text-muted text-center" *ngIf="!todos || todos.length <= 0" @slideAnimations>
   Empty
 </div>

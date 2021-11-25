@@ -1,1 +1,16 @@
-TODO item
+<ng-container *ngIf="todo">
+  <div class="d-flex align-center" (click)="todoToggle.emit(todo)">
+    <div class="p-2 col-auto">
+      <i class="bi bi-check2-square" *ngIf="todo.done"></i>
+      <i class="bi bi-check-square-fill" *ngIf="!todo.done"></i>
+    </div>
+    <div class="col p-2">
+      {{ todo.title }}
+    </div>
+    <div class="col-auto" (click)="todoDelete.emit(todo)">
+      <button class="btn btn-danger">
+        <i class="bi-trash"></i>
+      </button>
+    </div>
+  </div>
+</ng-container>

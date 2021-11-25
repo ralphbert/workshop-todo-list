@@ -2,6 +2,7 @@
   <app-todo-list
     [todos]="todos$ | async"
     (todoDelete)="onDelete($event.id)"
+    (todoToggle)="onToggle($event)"
   ></app-todo-list>
 </ng-container>
 

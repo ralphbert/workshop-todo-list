@@ -26,4 +26,8 @@ export class TodoComponent implements OnInit {
   onDelete(id: number) {
     this.todoService.delete(id).subscribe();
   }
+
+  onToggle(todo: Todo) {
+    this.todoService.toggle(todo).subscribe();
+  }
 }

@@ -30,4 +30,22 @@ export class TodoService {
     this.todos$$.next(todos);
     return of(undefined);
   }
+
+  toggle(todo: Todo): Observable<Todo> {
+    let newTodo: Todo = {
+      ...todo,
+      done: !todo.done,
+    };
+
+    const todos: Todo[] = this.todos$$.getValue().map(current => {
+      if (current.id === todo.id) {
+        return newTodo;
+      } else {
+        return current;
+      }
+    });
+
+    this.todos$$.next(todos);
+    return of(newTodo);
+  }
 }
