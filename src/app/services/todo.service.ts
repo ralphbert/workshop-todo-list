@@ -8,11 +8,6 @@ import {environment} from '../../environments/environment';
   providedIn: 'root',
 })
 export class TodoService {
-  /**
-   * @deprecated
-   */
-  todoList: Todo[] = [];
-
   private todoList$$ = new BehaviorSubject<Todo[]>([]);
   todoList$: Observable<Todo[]> = this.todoList$$.asObservable();
 
@@ -40,11 +35,29 @@ export class TodoService {
   }
 
   delete(id: number): Observable<void> {
-    return this.httpClient.delete<void>(this.endpoint + '/' + id);
+    return this.httpClient.delete<void>(this.endpoint + '/' + id)
+      .pipe(
+        tap(() => {
+          const list = this.todoList$$.getValue().filter(item => item.id !== id);
+          this.todoList$$.next(list);
+        })
+      );
   }
 
   update(todo: Todo): Observable<Todo> {
-    return this.httpClient.put<Todo>(this.endpoint + '/' + todo.id, todo);
+    return this.httpClient.put<Todo>(this.endpoint + '/' + todo.id, todo)
+      .pipe(
+        tap(newItem => {
+          const list = this.todoList$$.getValue().map(item => {
+            if (item.id === newItem.id) {
+              return newItem;
+            }
+
+            return item;
+          });
+          this.todoList$$.next(list);
+        }),
+      );
   }
 
   toggle(todo: Todo): Observable<Todo> {

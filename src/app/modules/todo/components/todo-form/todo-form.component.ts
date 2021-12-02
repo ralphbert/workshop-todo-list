@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Output} from '@angular/core';
-import {TodoCreate} from '../../types';
+import {TodoCreate} from '../../../../types';
 
 
 @Component({

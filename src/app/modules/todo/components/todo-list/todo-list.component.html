@@ -1,0 +1,12 @@
+<div>
+  <ul>
+    <li *ngFor="let todo of todos" (click)="todoToggle.emit(todo)">
+      <span *ngIf="todo.done"><input type="checkbox" checked readonly></span>
+      <span *ngIf="!todo.done"><input type="checkbox" readonly>️</span>
+
+      {{ todo.title }}
+
+      <a href="#" (click)="onDelete($event, todo)">Löschen</a>
+    </li>
+  </ul>
+</div>
