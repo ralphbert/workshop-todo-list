@@ -3,19 +3,23 @@ import {CommonModule} from '@angular/common';
 
 import {AuthRoutingModule} from './auth-routing.module';
 import {LoginComponent} from './components/login/login.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {TokenInterceptor} from './interceptors/token.interceptor';
 import {LogoutComponent} from './components/logout/logout.component';
+import { RegisterComponent } from './components/register/register.component';
+import {SharedModule} from '../shared/shared.module';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    LogoutComponent
+    LogoutComponent,
+    RegisterComponent
   ],
   exports: [
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
@@ -26,6 +30,8 @@ import {LogoutComponent} from './components/logout/logout.component';
     CommonModule,
     AuthRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
+    SharedModule,
   ]
 })
 export class AuthModule {

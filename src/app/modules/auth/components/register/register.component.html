@@ -1,0 +1,35 @@
+<form [formGroup]="form" (ngSubmit)="signUp()">
+  <div class="form-group mb-3">
+    <label>E-Mail</label>
+    <input formControlName="email" class="form-control">
+    <app-field-error [errors]="form.get('email')?.errors" [status]="form.get('email')?.status"></app-field-error>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-sm">
+      <div class="form-group mb-3">
+        <label>First name</label>
+        <input formControlName="firstName" class="form-control">
+        <app-field-error [errors]="form.get('firstName')?.errors"
+                         [status]="form.get('firstName')?.status"></app-field-error>
+      </div>
+    </div>
+    <div class="col-12  col-sm">
+      <div class="form-group mb-3">
+        <label>Last name</label>
+        <input formControlName="lastName" class="form-control">
+        <app-field-error [errors]="form.get('lastName')?.errors"
+                         [status]="form.get('lastName')?.status"></app-field-error>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group mb-3">
+    <app-password formControlName="password"></app-password>
+    <app-field-error [errors]="form.get('password')?.errors" [status]="form.get('password')?.status"></app-field-error>
+  </div>
+
+  <div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>

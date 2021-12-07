@@ -1,0 +1,11 @@
+<div *ngIf="errorList.length" class="d-block invalid-feedback">
+  <div *ngFor="let error of errorList; trackBy: trackByDetails">
+    {{ error.name }}
+  </div>
+</div>
+<div *ngIf="status === 'PENDING'" class="form-text">
+  Checking...
+</div>
+<div *ngIf="status === 'VALID'" class="d-block valid-feedback">
+  All ok!
+</div>
