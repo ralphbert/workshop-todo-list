@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {map} from 'rxjs';
+import {delay, map, of, switchMap} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
 
 function checkEmailValidator(authService: AuthService): AsyncValidatorFn {
   return (control: AbstractControl) => {
-    // async
-    // null --> valid
-    // { checkEmail: true }
-
-    return authService.checkEmail(control.value)
+    return of(control.value)
       .pipe(
+        delay(250),
+        switchMap(email => {
+          return authService.checkEmail(email);
+        }),
         map(isAvailable => {
           if (isAvailable) {
             return null;
@@ -37,12 +37,34 @@ export class SignUpComponent implements OnInit {
       firstName: [null, [Validators.required]],
       lastName: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.email], [checkEmailValidator(authService)]],
-      password: [null, [Validators.required]],
+      password: [null, [Validators.required, Validators.minLength(8)]],
       passwordRepeat: [null, [Validators.required]],
+    }, {
+      validators: (control) => {
+        const password = control.value.password;
+        const passwordRepeat = control.value.passwordRepeat;
+
+        if (password && passwordRepeat) {
+          if (password !== passwordRepeat) {
+            return {
+              passwordMatch: true,
+            };
+          }
+        }
+
+        return null;
+      }
     });
   }
 
   ngOnInit(): void {
+  }
+
+  onSubmit() {
+    if (this.form.valid) {
+      console.log(this.form.value);
+      alert('Submitting');
+    }
   }
 
 }

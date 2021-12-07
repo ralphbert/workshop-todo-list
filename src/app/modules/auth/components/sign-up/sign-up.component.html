@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="mb-3">
     <label for="firstName">First name</label>
     <input
@@ -54,7 +54,7 @@
     <app-input-errors [errors]="form.get('passwordRepeat')?.errors"></app-input-errors>
   </div>
 
-  <pre>{{ form.value | json }}</pre>
+  <div *ngIf="form.errors?.['passwordMatch']">ATTENTION ERROR! PASSWORDS DON'T MATCH</div>
 
   <button class="btn btn-secondary" type="submit">Sign up</button>
 </form>
