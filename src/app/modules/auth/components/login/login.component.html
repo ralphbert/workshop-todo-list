@@ -1,15 +1,24 @@
 <div>
   <form (ngSubmit)="login()">
-    <div class="mb-2">
+    <div class="form-group">
       <label for="username">Username</label>
       <input id="username" type="text" name="username" [(ngModel)]="username">
-      {{ username }}
     </div>
-    <div class="mb-2">
+    <div class="form-group">
       <label for="password">Password</label>
       <input id="password" type="password" name="password" [(ngModel)]="password">
-      {{ password }}
     </div>
+
+    <div class="form-group">
+      <app-toggle>Accept newsletter</app-toggle>
+    </div>
+    <div class="form-group">
+      <app-toggle [value]="true">Lorem ipsum</app-toggle>
+    </div>
+    <div class="form-group">
+      <app-toggle [disabled]="true">Blabla</app-toggle>
+    </div>
+
 
     <div *ngIf="error" class="alert alert-danger">
       {{ error.message }}

@@ -1,0 +1,49 @@
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.slider {
+  background: gray;
+  width: 3rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  margin-right: 0.5rem;
+}
+
+.knob {
+  background-color: #fff;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 9999px;
+  position: relative;
+  left: 0;
+  transition: left 0.25s;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+input:checked + .toggle .slider {
+  background-color: green;
+}
+
+input:checked + .toggle .knob {
+  left: 50%;
+}
+
+input:disabled + .toggle {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+input:focus + .toggle {
+  outline: rgba(255, 0, 0, 0.5) solid 2px;
+}
+
+input {
+  position: absolute;
+  left: -9999px;
+  height: 0;
+  width: 0;
+}
