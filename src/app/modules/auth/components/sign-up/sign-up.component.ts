@@ -39,6 +39,7 @@ export class SignUpComponent implements OnInit {
       email: [null, [Validators.required, Validators.email], [checkEmailValidator(authService)]],
       password: [null, [Validators.required, Validators.minLength(8)]],
       passwordRepeat: [null, [Validators.required]],
+      disclaimerAccepted: [false, [Validators.requiredTrue]],
     }, {
       validators: (control) => {
         const password = control.value.password;
@@ -66,5 +67,4 @@ export class SignUpComponent implements OnInit {
       alert('Submitting');
     }
   }
-
 }

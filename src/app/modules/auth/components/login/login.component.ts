@@ -11,6 +11,7 @@ import {Router} from '@angular/router';
 export class LoginComponent implements OnInit {
   username = '';
   password = '';
+  accepted = false;
   error: Error | undefined;
 
   constructor(private authService: AuthService, private router: Router) {

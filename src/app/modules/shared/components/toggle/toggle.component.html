@@ -1,7 +1,7 @@
 <input
   [disabled]="disabled"
   [checked]="value"
-  (change)="valueChange.emit(!value)"
+  (change)="onToggleChange()"
   [id]="'toggle-' + id"
   type="checkbox"
 >
