@@ -1,7 +1,18 @@
 import {Injectable} from '@angular/core';
-import {map, Observable, tap} from 'rxjs';
+import {from, map, Observable, switchMap} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
+
+import {
+  Auth,
+  authState,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+  User,
+  UserCredential,
+} from '@angular/fire/auth';
 
 export interface LoginResponse {
   access_token: string;
@@ -13,26 +24,42 @@ const TOKEN_KEY = 'token';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private httpClient: HttpClient) {
+  user$: Observable<User | null>;
+
+  constructor(private httpClient: HttpClient, private auth: Auth) {
+    this.user$ = authState(this.auth);
   }
 
-  login(username: string, password: string): Observable<LoginResponse> {
-    localStorage.removeItem(TOKEN_KEY);
-
-    return this.httpClient.post<LoginResponse>(environment.api + '/auth/login', {
-      username: username,
-      password: password
-    }).pipe(
-      tap(response => {
-        if (response.access_token) {
-          localStorage.setItem(TOKEN_KEY, response.access_token);
-        }
-      })
+  isAuthenticated(): Observable<boolean> {
+    return this.user$.pipe(
+      map(user => user != null)
     );
   }
 
+  register(email: string, password: string, firstName: string, lastName: string) {
+    const registerPromise = createUserWithEmailAndPassword(this.auth, email, password);
+    const observable = from(registerPromise);
+
+    return observable.pipe(
+      switchMap(response => {
+        return updateProfile(
+          response.user,
+          {
+            displayName: firstName + ' ' + lastName,
+          }
+        );
+      }),
+    );
+  }
+
+  login(email: string, password: string): Observable<UserCredential> {
+    const loginPromise = signInWithEmailAndPassword(this.auth, email, password);
+    const observable = from(loginPromise);
+    return observable;
+  }
+
   logout() {
-    localStorage.removeItem(TOKEN_KEY);
+    return from(signOut(this.auth));
   }
 
   checkEmail(email: string): Observable<boolean> {

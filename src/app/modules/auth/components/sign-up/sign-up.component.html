@@ -61,5 +61,7 @@
 
   <div *ngIf="form.errors?.['passwordMatch']">ATTENTION ERROR! PASSWORDS DON'T MATCH</div>
 
+  <div *ngIf="error">{{ error | json }}</div>
+
   <button class="btn btn-secondary" type="submit">Sign up</button>
 </form>

@@ -10,7 +10,7 @@ import {
   UrlSegment,
   UrlTree
 } from '@angular/router';
-import {Observable} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {AuthService} from '../services/auth.service';
 
 @Injectable({
@@ -41,11 +41,16 @@ export class PublicGuard implements CanActivate, CanActivateChild, CanLoad {
     return this.check();
   }
 
-  private check() {
-    if (this.authService.getToken()) {
-      return this.router.createUrlTree(['/todos']);
-    }
 
-    return true;
+  private check() {
+    return this.authService.isAuthenticated().pipe(
+      map(isAuth => {
+        if (!isAuth) {
+          return true;
+        }
+
+        return this.router.createUrlTree(['/todos']);
+      }),
+    );
   }
 }
