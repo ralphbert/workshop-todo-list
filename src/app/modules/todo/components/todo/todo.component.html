@@ -1,3 +1,6 @@
+{{ (authService.user$ | async)?.displayName }},
+{{ (authService.user$ | async)?.email }}
+
 <div class="todo">
   <app-todo-list
     [todos]="(todoService.todoList$ | async) || []"

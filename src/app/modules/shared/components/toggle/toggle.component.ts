@@ -1,4 +1,4 @@
-import {Component, EventEmitter, forwardRef, Input, Output} from '@angular/core';
+import {Component, EventEmitter, forwardRef, Input, Output, ViewEncapsulation} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 let counter = 1;
@@ -7,6 +7,7 @@ let counter = 1;
   selector: 'app-toggle',
   templateUrl: './toggle.component.html',
   styleUrls: ['./toggle.component.css'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   providers: [{
     multi: true,
     provide: NG_VALUE_ACCESSOR,

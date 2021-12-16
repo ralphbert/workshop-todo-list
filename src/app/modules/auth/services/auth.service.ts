@@ -1,7 +1,14 @@
 import {Injectable} from '@angular/core';
-import {map, Observable, tap} from 'rxjs';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {environment} from '../../../../environments/environment';
+import {EMPTY, from, map, Observable, switchMap, tap} from 'rxjs';
+import {
+  Auth,
+  authState,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+  User
+} from '@angular/fire/auth';
 
 export interface LoginResponse {
   access_token: string;
@@ -13,35 +20,44 @@ const TOKEN_KEY = 'token';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private httpClient: HttpClient) {
+  user$: Observable<User | null> = EMPTY;
+
+  constructor(private auth: Auth) {
+    this.user$ = authState(this.auth);
   }
 
-  login(username: string, password: string): Observable<LoginResponse> {
-    localStorage.removeItem(TOKEN_KEY);
+  get user(): User | null {
+    return this.auth.currentUser;
+  }
 
-    return this.httpClient.post<LoginResponse>(environment.api + '/auth/login', {
-      username: username,
-      password: password
-    }).pipe(
-      tap(response => {
-        if (response.access_token) {
-          localStorage.setItem(TOKEN_KEY, response.access_token);
-        }
-      })
+  isAuthenticated(): Observable<boolean> {
+    return this.user$.pipe(
+      map(u => !!u),
     );
   }
 
-  logout() {
-    localStorage.removeItem(TOKEN_KEY);
+  login(email: string, password: string) {
+    return from(signInWithEmailAndPassword(this.auth, email, password))
+      .pipe(
+        tap(response => {
+          console.log('signUp response', response);
+        }),
+      );
   }
 
-  checkEmail(email: string): Observable<boolean> {
-    const params = new HttpParams().set('email', email);
-
-    return this.httpClient.get<{ available: boolean }>(`${environment.api}/auth/check-email`, {params})
+  register(email: string, password: string, firstName: string, lastName: string) {
+    return from(createUserWithEmailAndPassword(this.auth, email, password))
       .pipe(
-        map(result => result.available),
+        switchMap(response => {
+          return updateProfile(response.user, {
+            displayName: [firstName, lastName].join(' '),
+          })
+        }),
       );
+  }
+
+  logout() {
+    return from(signOut(this.auth));
   }
 
   getToken(): string | null {

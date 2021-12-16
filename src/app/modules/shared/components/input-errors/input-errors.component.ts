@@ -9,6 +9,15 @@ import {ValidationErrors} from '@angular/forms';
 export class InputErrorsComponent implements OnInit {
   @Input() errors: ValidationErrors | null | undefined;
 
+  get errorArray() {
+    return Object.keys(this.errors || {}).map(errorKey => {
+      return {
+        name: errorKey,
+        payload: this.errors?.[errorKey] || undefined,
+      };
+    });
+  }
+
   constructor() {
   }
 

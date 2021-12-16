@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "dummy-68653": {
+      "hosting": {
+        "todo-app": [
+          "dummy-68653"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "dummy-68653"
+  }
+}

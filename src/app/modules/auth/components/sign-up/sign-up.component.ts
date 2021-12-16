@@ -1,28 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {delay, map, of, switchMap} from 'rxjs';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
-
-function checkEmailValidator(authService: AuthService): AsyncValidatorFn {
-  return (control: AbstractControl) => {
-    return of(control.value)
-      .pipe(
-        delay(250),
-        switchMap(email => {
-          return authService.checkEmail(email);
-        }),
-        map(isAvailable => {
-          if (isAvailable) {
-            return null;
-          }
-
-          return {
-            checkEmail: true,
-          };
-        })
-      );
-  }
-}
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -31,15 +10,16 @@ function checkEmailValidator(authService: AuthService): AsyncValidatorFn {
 })
 export class SignUpComponent implements OnInit {
   form: FormGroup;
+  error: Error | null = null;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
     this.form = this.formBuilder.group({
       firstName: [null, [Validators.required]],
       lastName: [null, [Validators.required]],
-      email: [null, [Validators.required, Validators.email], [checkEmailValidator(authService)]],
+      email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required, Validators.minLength(8)]],
       passwordRepeat: [null, [Validators.required]],
-      disclaimerAccepted: [false, [Validators.requiredTrue]],
+      disclaimerAccepted: [false],
     }, {
       validators: (control) => {
         const password = control.value.password;
@@ -62,7 +42,18 @@ export class SignUpComponent implements OnInit {
   }
 
   onSubmit() {
+    this.error = null;
+
     if (this.form.valid) {
+      const {email, password, firstName, lastName} = this.form.value;
+      this.authService.register(email, password, firstName, lastName).subscribe({
+        next: () => {
+          this.router.navigate(['/todos']);
+        },
+        error: error => {
+          this.error = error;
+        }
+      });
       console.log(this.form.value);
       alert('Submitting');
     }

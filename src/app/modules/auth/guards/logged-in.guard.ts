@@ -10,7 +10,7 @@ import {
   UrlSegment,
   UrlTree
 } from '@angular/router';
-import {Observable} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {AuthService} from '../services/auth.service';
 
 @Injectable({
@@ -23,27 +23,28 @@ export class LoggedInGuard implements CanActivate, CanActivateChild, CanLoad {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log('canActivate');
     return this.check();
   }
 
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log('canActivateChild');
     return this.check();
   }
 
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log('canLoad');
     return this.check();
   }
 
   private check() {
-    if (this.authService.getToken()) {
-      return true;
-    }
+    return this.authService.isAuthenticated().pipe(
+      map(isAuth => {
+        if (!isAuth) {
+          return this.router.createUrlTree(['/']);
+        }
 
-    return this.router.createUrlTree(['/']);
+        return true;
+      }),
+    );
   }
 }
