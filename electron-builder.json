@@ -1,0 +1,40 @@
+{
+  "asar": false,
+  "directories": {
+    "output": "release/"
+  },
+  "files": [
+    "**/*",
+    "!**/*.ts",
+    "!*.map",
+    "!package.json",
+    "!package-lock.json"
+  ],
+  "extraResources": [
+    {
+      "from": "dist/todo-app",
+      "to": "app",
+      "filter": [
+        "**/*"
+      ]
+    }
+  ],
+  "win": {
+    "icon": "dist/todo-app/assets/icons",
+    "target": [
+      "portable"
+    ]
+  },
+  "mac": {
+    "icon": "dist/todo-app/assets/icons",
+    "target": [
+      "dmg"
+    ]
+  },
+  "linux": {
+    "icon": "dist/todo-app/assets/icons",
+    "target": [
+      "AppImage"
+    ]
+  }
+}

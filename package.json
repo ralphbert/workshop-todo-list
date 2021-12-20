@@ -1,12 +1,16 @@
 {
   "name": "todo-app",
   "version": "0.0.0",
+  "main": "app/main.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --base-href ./",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "electron": "npm run build && electron .",
+    "dist": "npm run build && electron-builder",
+    "dist:dir": "npm run build && electron-builder --dir"
   },
   "private": true,
   "dependencies": {
@@ -33,6 +37,8 @@
     "@angular/compiler-cli": "~13.0.0",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
+    "electron": "^16.0.5",
+    "electron-builder": "^22.14.5",
     "jasmine-core": "~3.10.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
