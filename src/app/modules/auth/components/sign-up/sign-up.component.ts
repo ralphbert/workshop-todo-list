@@ -1,34 +1,12 @@
 import {Component} from '@angular/core';
-import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {delay, map, of, switchMap} from 'rxjs';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
-
-function checkEmailValidator(authService: AuthService): AsyncValidatorFn {
-  return (control: AbstractControl) => {
-    return of(control.value)
-      .pipe(
-        delay(250),
-        switchMap(email => {
-          return authService.checkEmail(email);
-        }),
-        map(isAvailable => {
-          if (isAvailable) {
-            return null;
-          }
-
-          return {
-            checkEmail: true,
-          };
-        })
-      );
-  }
-}
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css']
+  styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent {
   form: FormGroup;
@@ -73,15 +51,14 @@ export class SignUpComponent {
       const email = this.form.value.email;
 
       this.authService.register(email, password, firstName, lastName)
-        .subscribe(
-          (args) => {
-            console.log('Register done!', args);
+        .subscribe({
+          next: () => {
             this.router.navigate(['/todos']);
           },
-          (error) => {
+          error: (error) => {
             this.error = error;
           }
-        );
+        });
     }
   }
 }

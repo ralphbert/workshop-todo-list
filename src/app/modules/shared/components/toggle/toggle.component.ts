@@ -6,7 +6,7 @@ let counter = 1;
 @Component({
   selector: 'app-toggle',
   templateUrl: './toggle.component.html',
-  styleUrls: ['./toggle.component.css'],
+  styleUrls: ['./toggle.component.scss'],
   providers: [{
     multi: true,
     provide: NG_VALUE_ACCESSOR,

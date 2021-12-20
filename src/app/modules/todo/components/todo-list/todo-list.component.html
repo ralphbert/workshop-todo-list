@@ -1,12 +1,18 @@
 <div>
-  <ul>
-    <li *ngFor="let todo of todos" (click)="todoToggle.emit(todo)">
-      <span *ngIf="todo.done"><input type="checkbox" checked readonly></span>
-      <span *ngIf="!todo.done"><input type="checkbox" readonly>️</span>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let todo of todos" (click)="todoToggle.emit(todo)">
+      <div class="d-flex w-100 justify-content-between align-items-center">
+        <div class="d-flex">
+          <div class="me-2">
+            <span *ngIf="!todo.done"><i class="bi bi-square"></i></span>
+            <span *ngIf="todo.done" class="text-success"><i class="bi bi-check-square"></i></span>
+          </div>
 
-      {{ todo.title }}
+          {{ todo.title }}
+        </div>
 
-      <a href="#" (click)="onDelete($event, todo)">Löschen</a>
+        <button class="btn btn-danger btn-sm" (click)="onDelete($event, todo)"><i class="bi bi-trash"></i></button>
+      </div>
     </li>
   </ul>
 </div>

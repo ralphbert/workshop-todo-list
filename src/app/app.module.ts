@@ -5,20 +5,12 @@ import {AppComponent} from './app.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {AuthModule} from './modules/auth/auth.module';
-import {RouterModule, Routes} from '@angular/router';
-import {LoggedInGuard} from './modules/auth/guards/logged-in.guard';
 import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
 import {environment} from '../environments/environment';
 import {getAuth, provideAuth} from '@angular/fire/auth';
 import {getFirestore, provideFirestore} from '@angular/fire/firestore';
+import {AppRoutingModule} from './app-routing.module';
 
-const routes: Routes = [{
-  path: 'todos',
-  canLoad: [LoggedInGuard],
-  canActivate: [LoggedInGuard],
-  canActivateChild: [LoggedInGuard],
-  loadChildren: () => import('./modules/todo/todo.module').then(m => m.TodoModule)
-}];
 
 @NgModule({
   declarations: [
@@ -26,7 +18,7 @@ const routes: Routes = [{
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes),
+    AppRoutingModule,
     FormsModule,
     HttpClientModule,
     AuthModule,

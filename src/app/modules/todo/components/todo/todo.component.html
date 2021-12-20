@@ -1,5 +1,6 @@
 <div class="todo">
   <app-todo-list
+    class="mb-3"
     [todos]="(todoService.todoList$ | async) || []"
     (todoToggle)="onToggle($event)"
     (todoDelete)="onDelete($event)"

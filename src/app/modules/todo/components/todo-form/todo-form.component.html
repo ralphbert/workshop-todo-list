@@ -1,6 +1,6 @@
-<form (ngSubmit)="onDone()">
+<form (ngSubmit)="onDone()" class="d-flex">
   <input
-    class="form-control"
+    class="form-control me-2"
     [value]="todoTitle"
     (input)="onInput(taskNameField.value)"
     #taskNameField

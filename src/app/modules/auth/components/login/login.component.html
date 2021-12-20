@@ -2,23 +2,21 @@
   <form (ngSubmit)="login()">
     <div class="form-group">
       <label for="username">Username</label>
-      <input id="username" type="text" name="username" [(ngModel)]="username">
+      <input id="username" type="text" name="username" class="form-control" [(ngModel)]="username">
     </div>
     <div class="form-group">
       <label for="password">Password</label>
-      <input id="password" type="password" name="password" [(ngModel)]="password">
+      <input id="password" type="password" name="password" class="form-control" [(ngModel)]="password">
     </div>
 
-    <div class="form-group">
-      <app-toggle name="accepted" [(ngModel)]="accepted">Accept newsletter</app-toggle>
-    </div>
-
-    {{ accepted | json }}
-
-    <div *ngIf="error" class="alert alert-danger">
+    <app-alert *ngIf="error">
       {{ error.message }}
-    </div>
+    </app-alert>
 
-    <button type="submit">Login</button>
+    <button class="btn btn-primary" type="submit">Login</button>
+
+    <div class="text-center py-3">
+      <a routerLink="/sign-up">Go to sign up</a>
+    </div>
   </form>
 </div>
